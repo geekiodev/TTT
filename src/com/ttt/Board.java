@@ -33,9 +33,7 @@ public class Board {
 			for(int col = 0; col < board.length; col++)
 			{
 				positions++;
-				//System.out.print("[" + positions++ + "] ");
 				GridSlot gridSlot = (GridSlot)board[row][col];
-				//System.out.print("[" + (gridSlot.isEmpty() ? positions++ : gridSlot.getPiece()) + "] ");
 				System.out.print("[" + (gridSlot.isEmpty() ? positions : gridSlot.getPiece()) + "] ");
 			}
 			System.out.println();
@@ -45,14 +43,8 @@ public class Board {
 	
 	public void movePiece(GamePiece gamePiece, int row, int col)
 	{
-		//System.out.println("\n===========================================\n");
-		
 		GridSlot gridSlot = (GridSlot)board[row][col];
 		gridSlot.setPiece(gamePiece);
-		
-		//showBoard();
-		
-		//System.out.println("\n===========================================\n");
 	}
 	
 	public void revealWinner()
