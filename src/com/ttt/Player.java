@@ -3,7 +3,7 @@ package com.ttt;
 public class Player {
 	int Id;
 	private String playerName;
-	private GamePiece gamePiece;
+	private SlotState gamePiece;
 	
 	public Player()
 	{
@@ -18,12 +18,12 @@ public class Player {
 		this.playerName = playerName;
 	}
 
-	public void setPiece(GamePiece gamePiece)
+	public void setPiece(SlotState gamePiece)
 	{
 		this.gamePiece = gamePiece;
 	}
 	
-	public GamePiece getPiece()
+	public SlotState getPiece()
 	{
 		return gamePiece;
 	}

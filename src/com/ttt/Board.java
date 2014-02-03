@@ -17,7 +17,7 @@ public class Board {
 			for(int col = 0; col < board.length; col++)
 			{
 				GridSlot gridSlot = (GridSlot)board[row][col];
-				System.out.print("[" + (gridSlot.isEmpty() ? " " : gridSlot.getPiece()) + "] ");
+				System.out.print("[" + (gridSlot.isEmpty() ? " " : gridSlot.getState()) + "] ");
 			}
 			System.out.println();
 		}
@@ -34,22 +34,22 @@ public class Board {
 			{
 				positions++;
 				GridSlot gridSlot = (GridSlot)board[row][col];
-				System.out.print("[" + (gridSlot.isEmpty() ? positions : gridSlot.getPiece()) + "] ");
+				System.out.print("[" + (gridSlot.isEmpty() ? positions : gridSlot.getState()) + "] ");
 			}
 			System.out.println();
 		}
 		System.out.println("\n===========================================\n");
 	}
 	
-	public void movePiece(GamePiece gamePiece, int row, int col)
+	public void movePiece(SlotState gamePiece, int row, int col)
 	{
 		GridSlot gridSlot = (GridSlot)board[row][col];
-		gridSlot.setPiece(gamePiece);
+		gridSlot.setState(gamePiece);
 	}
 	
 	public void revealWinner()
 	{
-		GamePiece winner = winner();
+		SlotState winner = winner();
 		
 		if(winner != null)
 		{
@@ -58,11 +58,11 @@ public class Board {
 		}
 	}
 	
-	public GamePiece winner()
+	public SlotState winner()
 	{
-		GamePiece horizontalLines = checkHorizontalLines();
-		GamePiece verticalLines = checkVerticalLines();
-		GamePiece diagonalLines = checkDiagonalLines();
+		SlotState horizontalLines = checkHorizontalLines();
+		SlotState verticalLines = checkVerticalLines();
+		SlotState diagonalLines = checkDiagonalLines();
 		
 		if(horizontalLines != null)
 		{
@@ -80,76 +80,53 @@ public class Board {
 		return null;
 	}
 	
-	private GamePiece checkHorizontalLines()
+	private SlotState checkHorizontalLines()
 	{
-		GamePiece[] gamePieces = new GamePiece[board.length];
+		GridSlot[] gridSlots = new GridSlot[board.length];
 		
 		for(int row = 0; row < board.length; row++)
 		{
 			for(int col = 0; col < board.length; col++)
 			{
 				GridSlot gridSlot = (GridSlot)board[row][col];
-				gamePieces[col] = gridSlot.getPiece();
+
+				gridSlots[col] = gridSlot;
 			}
-			
-			if(gamePieces[0] == GamePiece.X && gamePieces[1] == GamePiece.X && gamePieces[2] == GamePiece.X)
+
+			if(!gridSlots[0].isEmpty() && gridSlots[0].getState().equals(gridSlots[1].getState()) && gridSlots[1].getState().equals(gridSlots[2].getState()))
 			{
-				return GamePiece.X;
-			}
-			else if(gamePieces[0] == GamePiece.O && gamePieces[1] == GamePiece.O && gamePieces[2] == GamePiece.O)
-			{
-				return GamePiece.O;
+				return gridSlots[0].getState();
 			}
 		}
 		return null;
 	}
 	
-	private GamePiece checkVerticalLines()
+	private SlotState checkVerticalLines()
 	{
-		if(((GridSlot)board[0][0]).getPiece() == GamePiece.X && ((GridSlot)board[1][0]).getPiece() == GamePiece.X && ((GridSlot)board[2][0]).getPiece() == GamePiece.X)
+		if(!((GridSlot)board[0][0]).isEmpty() && ((GridSlot)board[0][0]).getState().equals(((GridSlot)board[1][0]).getState()) && ((GridSlot)board[1][0]).getState().equals(((GridSlot)board[2][0]).getState()))
 		{
-			return GamePiece.X;
+			return ((GridSlot)board[0][0]).getState();
 		}
-		else if(((GridSlot)board[0][1]).getPiece() == GamePiece.X && ((GridSlot)board[1][1]).getPiece() == GamePiece.X && ((GridSlot)board[2][1]).getPiece() == GamePiece.X)
+		else if(!((GridSlot)board[0][1]).isEmpty() && ((GridSlot)board[0][1]).getState().equals(((GridSlot)board[1][1]).getState()) && ((GridSlot)board[1][1]).getState().equals(((GridSlot)board[2][1]).getState()))
 		{
-			return GamePiece.X;
+			return ((GridSlot)board[0][1]).getState();
 		}
-		else if(((GridSlot)board[0][2]).getPiece() == GamePiece.X && ((GridSlot)board[1][2]).getPiece() == GamePiece.X && ((GridSlot)board[2][2]).getPiece() == GamePiece.X)
+		else if(!((GridSlot)board[0][2]).isEmpty() && ((GridSlot)board[0][2]).getState().equals(((GridSlot)board[1][2]).getState()) && ((GridSlot)board[1][2]).getState().equals(((GridSlot)board[2][2]).getState()))
 		{
-			return GamePiece.X;
-		}
-		else if(((GridSlot)board[0][0]).getPiece() == GamePiece.O && ((GridSlot)board[1][0]).getPiece() == GamePiece.O && ((GridSlot)board[2][0]).getPiece() == GamePiece.O)
-		{
-			return GamePiece.O;
-		}
-		else if(((GridSlot)board[0][1]).getPiece() == GamePiece.O && ((GridSlot)board[1][1]).getPiece() == GamePiece.O && ((GridSlot)board[2][1]).getPiece() == GamePiece.O)
-		{
-			return GamePiece.O;
-		}
-		else if(((GridSlot)board[0][2]).getPiece() == GamePiece.O && ((GridSlot)board[1][2]).getPiece() == GamePiece.O && ((GridSlot)board[2][2]).getPiece() == GamePiece.O)
-		{
-			return GamePiece.O;
+			return ((GridSlot)board[0][2]).getState();
 		}
 		return null;
 	}
 	
-	private GamePiece checkDiagonalLines()
+	private SlotState checkDiagonalLines()
 	{
-		if(((GridSlot)board[0][0]).getPiece() == GamePiece.X && ((GridSlot)board[1][1]).getPiece() == GamePiece.X && ((GridSlot)board[2][2]).getPiece() == GamePiece.X)
+		if(!((GridSlot)board[0][0]).isEmpty() && ((GridSlot)board[0][0]).getState().equals(((GridSlot)board[1][1]).getState()) && ((GridSlot)board[1][1]).getState().equals(((GridSlot)board[2][2]).getState()))
 		{
-			return GamePiece.X;
+			return ((GridSlot)board[0][0]).getState();
 		}
-		else if(((GridSlot)board[0][2]).getPiece() == GamePiece.X && ((GridSlot)board[1][1]).getPiece() == GamePiece.X && ((GridSlot)board[2][0]).getPiece() == GamePiece.X)
+		else if(!((GridSlot)board[0][2]).isEmpty() && ((GridSlot)board[0][2]).getState().equals(((GridSlot)board[1][1]).getState()) && ((GridSlot)board[1][1]).getState().equals(((GridSlot)board[2][0]).getState()))
 		{
-			return GamePiece.X;
-		}
-		else if(((GridSlot)board[0][0]).getPiece() == GamePiece.O && ((GridSlot)board[1][1]).getPiece() == GamePiece.O && ((GridSlot)board[2][2]).getPiece() == GamePiece.O)
-		{
-			return GamePiece.O;
-		}
-		else if(((GridSlot)board[0][2]).getPiece() == GamePiece.O && ((GridSlot)board[1][1]).getPiece() == GamePiece.O && ((GridSlot)board[2][0]).getPiece() == GamePiece.O)
-		{
-			return GamePiece.O;
+			return ((GridSlot)board[0][2]).getState();
 		}
 		return null;
 	}

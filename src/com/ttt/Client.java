@@ -15,13 +15,13 @@ public class Client {
 		
 		Player player1 = new Player();
 		player1.setPlayerName(reader.nextLine());
-		player1.setPiece(GamePiece.X);
+		player1.setPiece(SlotState.X);
 		System.out.println("Welcome " + player1.getPlayerName() + "\n");
 		
 		System.out.println("Player 2 please enter your name: ");
 		Player player2 = new Player();
 		player2.setPlayerName(reader.nextLine());
-		player2.setPiece(GamePiece.O);
+		player2.setPiece(SlotState.O);
 		System.out.println("Welcome " + player2.getPlayerName() + "\n");
 		
 		Player currentPlayer = player1;
@@ -73,7 +73,7 @@ public class Client {
 			currentPlayer = (currentPlayer == player1) ? player2 : player1;
 		}
 		
-		GamePiece winner = board.winner();
+		SlotState winner = board.winner();
 		
 		if(winner != null)
 		{
@@ -85,6 +85,8 @@ public class Client {
 			
 			System.out.println("\n===========================================\n");
 		}
+		
+		reader.close();
 	}
 
 }

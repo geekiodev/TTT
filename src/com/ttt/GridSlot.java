@@ -2,28 +2,28 @@ package com.ttt;
 
 public class GridSlot {
 	int Id;
-	private GamePiece gamePiece;
+	private SlotState state;
 	
 	public GridSlot()
 	{
-		this.gamePiece = null;
+		this.state = SlotState.Empty;
 	}
 	
-	public void setPiece(GamePiece gamePiece)
+	public void setState(SlotState state)
 	{
 		if(isEmpty())
 		{
-			this.gamePiece = gamePiece;
+			this.state = state;
 		}
 	}
 	
 	public boolean isEmpty()
 	{
-		return gamePiece == null;
+		return state == SlotState.Empty || state == null;
 	}
 	
-	public GamePiece getPiece()
+	public SlotState getState()
 	{
-		return gamePiece;
+		return state;
 	}
 }
